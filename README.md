@@ -6,8 +6,8 @@
 
 ### TO DO:
 
-+ Passar les classes Matrix i Row de punters a vectors i eliminar funcions redundants / millorar les existents / afegir més funcions
-+ Tot
++ En les classes Row i Matrix, eliminar funcions redundants / millorar les existents / afegir més funcions
++ Tota la resta
 
 ### COMENTARIS:
 
