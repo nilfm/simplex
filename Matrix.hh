@@ -39,6 +39,8 @@ public:
     Matrix operator-();
     Matrix operator-(Matrix& A);
     Matrix& operator=(Matrix A);
+    Matrix& operator+=(Matrix A);
+    Matrix& operator-=(Matrix A);
 };
 
 //Altres operadors

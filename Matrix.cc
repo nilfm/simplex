@@ -73,6 +73,14 @@ Matrix& Matrix::operator=(Matrix A) {
     return *this;
 }
 
+Matrix& Matrix::operator+=(Matrix A) {
+    return *this = *this + A;
+}
+
+Matrix& Matrix::operator-=(Matrix A) {
+    return *this = *this - A;
+}
+
 
 // Funcions basiques
 

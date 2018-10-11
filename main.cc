@@ -3,5 +3,8 @@
 #include "Row.hh"
 
 int main() {
-    cout << "DOES IT WORK?" << endl;
+    Matrix M(3, 3, 3.14);
+    M.output();
+    M.input();
+    M.output();
 }

@@ -58,6 +58,14 @@ Row& Row::operator=(Row r) {
     return *this;
 }
 
+Row& Row::operator+=(Row r) {
+    return *this = *this + r;
+}
+
+Row& Row::operator-=(Row r) {
+    return *this = *this - r;
+}
+
 
 // Input, Output
 
