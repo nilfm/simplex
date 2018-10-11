@@ -15,6 +15,9 @@ public:
     //Destructora
     ~Row();
     
+    //Funcions basiques
+    int size();
+    
     //Input-Output
     void input();
     void output();

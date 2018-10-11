@@ -6,8 +6,7 @@
 
 class Matrix{
 private:
-    Row* matrix;
-    int rows;
+    vector<Row> matrix;
     
 public:
     //Constructores
@@ -23,7 +22,6 @@ public:
     
     //Funcions basiques
     int size();
-    void copy(Matrix& A);
     void swap(int i, int j);
     
     //Funcions propies de les matrius
@@ -39,7 +37,8 @@ public:
     Row operator*(Row& r);
     Matrix operator*(double d);
     Matrix operator-();
-    Matrix operator-(Matrix A);
+    Matrix operator-(Matrix& A);
+    Matrix& operator=(Matrix& A);
 };
 
 //Altres operadors
