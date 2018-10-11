@@ -36,7 +36,7 @@ public:
     Row operator*(double d);
     Row operator-();
     Row operator-(Row& r);
-    Row& operator=(Row& r);
+    Row& operator=(Row r);
 };
 
 

@@ -38,7 +38,7 @@ public:
     Matrix operator*(double d);
     Matrix operator-();
     Matrix operator-(Matrix& A);
-    Matrix& operator=(Matrix& A);
+    Matrix& operator=(Matrix A);
 };
 
 //Altres operadors

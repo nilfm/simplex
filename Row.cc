@@ -53,7 +53,7 @@ Row Row::operator-(Row& r) {
     return s;
 }
 
-Row& Row::operator=(Row& r) {
+Row& Row::operator=(Row r) {
     this->row = r.row;
     return *this;
 }

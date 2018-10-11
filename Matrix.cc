@@ -68,7 +68,7 @@ Matrix Matrix::operator-(Matrix& A) {
     return add;
 }
 
-Matrix& Matrix::operator=(Matrix& A) {
+Matrix& Matrix::operator=(Matrix A) {
     this->matrix = A.matrix;
     return *this;
 }
