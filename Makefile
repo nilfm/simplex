@@ -12,3 +12,6 @@ Matrix.o: Matrix.cc Matrix.hh Row.cc Row.hh Includes.hh
     
 Row.o: Row.cc Row.hh Includes.hh
 	$(CC) $(CFLAGS) -c Row.cc
+
+clean:
+	rm *.x *.o
