@@ -5,8 +5,7 @@
 
 class Row{
 private:
-    double *row;
-    int cols;
+    vector<double> row;
     
 public:
     //Constructores
@@ -20,10 +19,6 @@ public:
     void input();
     void output();
     void output_vertical();
-    
-    //Funcions basiques
-    int size();
-    void copy(Row& r);
 
     //Funcions propies dels vectors
     double norm_1();
@@ -38,6 +33,7 @@ public:
     Row operator*(double d);
     Row operator-();
     Row operator-(Row& r);
+    Row& operator=(Row& r);
 };
 
 
