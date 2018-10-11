@@ -76,7 +76,7 @@ Matrix& Matrix::operator=(Matrix A) {
 
 // Funcions basiques
 
-int Matrix::size() {
+int Matrix::size() const {
     return matrix.size();
 }
 
@@ -90,7 +90,7 @@ void Matrix::input() {
     for (int i = 0; i < size(); i++) matrix[i].input();
 }
 
-void Matrix::output() {
+void Matrix::output() const {
     for (int i = 0; i < this->size(); i++){
         matrix[i].output();
     }
@@ -131,7 +131,7 @@ double Matrix::norm_1() {
     return max;
 }
 
-double Matrix::norm_inf(){
+double Matrix::norm_inf() {
     int a = size();
     int b = matrix[0].size();
     double max = 0;

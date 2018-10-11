@@ -65,14 +65,14 @@ void Row::input() {
     for (int i = 0; i < size(); i++) cin >> row[i];
 }
 
-void Row::output() {
+void Row::output() const {
     for (int i = 0; i < size(); i++){
         cout << setw(PADDING) << row[i];
     }
     cout << endl;
 }
 
-void Row::output_vertical() {
+void Row::output_vertical() const {
     for (int i = 0; i < size(); i++){
         cout << setw(PADDING) << row[i] << endl;
     }
@@ -81,32 +81,32 @@ void Row::output_vertical() {
 
 // Funcions basiques
 
-int Row::size() {
+int Row::size() const {
     return row.size();
 }
 
 
 // Funcions propies dels vectors
 
-double Row::norm_1() {
+double Row::norm_1() const {
     double suma = 0;
     for (int i = 0; i < size(); i++) suma += abs(row[i]);
     return suma;
 }
 
-double Row::norm_2() {
+double Row::norm_2() const {
     double suma = 0;
     for (int i = 0; i < size(); i++) suma += row[i]*row[i];
     return sqrt(suma);
 }
 
-double Row::norm_p(double p) {
+double Row::norm_p(double p) const {
     double suma = 0;
     for (int i = 0; i < size(); i++) suma += pow(abs(row[i]), p);
     return pow(suma, 1/p);
 }
 
-double Row::norm_inf() {
+double Row::norm_inf() const {
     double max = 0;
     for (int i = 0; i < size(); i++){
         if (abs(row[i]) > max) max = abs(row[i]); 

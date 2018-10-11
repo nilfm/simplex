@@ -16,18 +16,18 @@ public:
     ~Row();
     
     //Funcions basiques
-    int size();
+    int size() const;
     
     //Input-Output
     void input();
-    void output();
-    void output_vertical();
+    void output() const;
+    void output_vertical() const;
 
     //Funcions propies dels vectors
-    double norm_1();
-    double norm_2();
-    double norm_p(double p);
-    double norm_inf();
+    double norm_1() const;
+    double norm_2() const;
+    double norm_p(double p) const;
+    double norm_inf() const;
 
     //Operadors
     double& operator[](int x);

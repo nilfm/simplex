@@ -18,10 +18,10 @@ public:
     
     //Input-Output
     void input();
-    void output();
+    void output() const;
     
     //Funcions basiques
-    int size();
+    int size() const;
     void swap(int i, int j);
     
     //Funcions propies de les matrius
