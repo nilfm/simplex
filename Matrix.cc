@@ -81,6 +81,17 @@ Matrix& Matrix::operator-=(Matrix A) {
     return *this = *this - A;
 }
 
+Matrix& Matrix::operator!() {
+    for (int i = 0; i < size(); i++) {
+        for (int j = i+1; j < matrix[i].size(); j++) {
+            double temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
+        }
+    }
+    return *this;
+}
+
 
 // Funcions basiques
 

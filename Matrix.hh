@@ -41,6 +41,7 @@ public:
     Matrix& operator=(Matrix A);
     Matrix& operator+=(Matrix A);
     Matrix& operator-=(Matrix A);
+    Matrix& operator!(); //Transposicio - Altera el parametre implicit!!
 };
 
 //Altres operadors
