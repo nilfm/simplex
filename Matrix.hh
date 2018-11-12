@@ -33,6 +33,8 @@ public:
     double norm_1();
     double norm_inf(); 
     Matrix inverse(); //Pre: det(A) != 0
+    Row resol(Row& b);
+    void LU(Row& perm); //PA = LU
     
     //Operadors
     Row& operator[](int x);

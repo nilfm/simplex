@@ -179,8 +179,51 @@ double Matrix::norm_inf() {
     return max;
 }
 
+//NOT TESTED + FALTA POTSER COMPROVAR SI ES SINGULAR I RETORNAR UN INT PER INDICAR-HO
+//potser aniria be, enlloc de modificar el p.i., passar les matrius L i U per referencia i canviar allo?
+void Matrix::LU(Row& perm) {
+    int n = size();
+    for (int i = 0; i < n; ++i) perm[i] = i;
+    for (int i = 0; i < n; ++i) {
+        int b = 0;
+        double value = 0;
+        for (int j = i; j < n; ++j) {
+            double cur = 1;
+            for (int k = i; k < n; ++k) {
+                if (abs(matrix[j][i]/matrix[j][k]) < cur) cur = abs(matrix[j][i]/matrix[j][k]);
+            }
+            if (cur > value) value = cur, b = j;
+        }
+        this->swap(b, i);
+        swap(perm[b], perm[i]);
+        for (int j = i + 1; j < n; ++j) {
+            matrix[j][i] /= matrix[i][i];
+            for (int k = i + 1; k < n; ++k) matrix[j][k] -= matrix[j][i]*matrix[i][k];
+        }
+    }
+}
+
+//NOT TESTED + FALTA AFEGIR SOLVE_LOWER_TRIANGULAR i SOLVE_UPPER_TRIANGULAR
+Row Matrix::resol(Row& b){
+    int n = size();
+    Row perm(n);
+    Matrix copy = *this;
+    copy.LU(perm);
+    Row c = b.permute(perm);
+    Row y = solve_lower_triangular(c);
+    return solve_upper_triangular(y);
+}
+
+//NOT TESTED
 Matrix Matrix::inverse() {
-    //TO DO, hauriem de copiar i pegar varies funcions de LU aqui, pero arreglades perque els arguments del lazaro donen sida
+    int n = size();
+    Matrix inv(n, n);
+    for (int i = 0; i < n; ++i) {
+        Row b(n, 0);
+        b[i] = 1;
+        inv[i] = resol(b);
+    }
+    return inv.transpose();
 }
 
 

@@ -93,6 +93,15 @@ int Row::size() const {
     return row.size();
 }
 
+//NOT TESTED
+Row Row::permute(Row& perm){
+    Row res(b.size());
+    for (int i = 0; i < b.size(); ++i) {
+        res[i] = b[perm[i]];
+    }
+    return res;
+}
+
 
 // Funcions propies dels vectors
 

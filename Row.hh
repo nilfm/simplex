@@ -17,6 +17,7 @@ public:
     
     //Funcions basiques
     int size() const;
+    Row permute(Row& perm);
     
     //Input-Output
     void input();
