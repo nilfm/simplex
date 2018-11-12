@@ -3,7 +3,6 @@
 #include "Row.hh"
 
 // Constructors, Destructors
-
 Matrix::Matrix(int size_i, int size_j) {
     matrix = vector<Row>(size_i, Row(size_j));
 }
@@ -16,7 +15,6 @@ Matrix::~Matrix() {}
 
 
 // Operadors
-
 Row& Matrix::operator[](int x) {
     return matrix[x];
 }
@@ -92,19 +90,7 @@ Matrix& Matrix::operator!() {
     return *this;
 }
 
-
-// Funcions basiques
-
-int Matrix::size() const {
-    return matrix.size();
-}
-
-void Matrix::swap(int i, int j) {
-    Row t = matrix[i];
-    matrix[i] = matrix[j];
-    matrix[j] = t;
-}
-
+// Input-Output
 void Matrix::input() {
     for (int i = 0; i < size(); i++) matrix[i].input();
 }
@@ -115,9 +101,38 @@ void Matrix::output() const {
     }
 }
 
+// Funcions basiques
+int Matrix::size() const {
+    return matrix.size();
+}
+
+void Matrix::swap(int i, int j) {
+    Row t = matrix[i];
+    matrix[i] = matrix[j];
+    matrix[j] = t;
+}
+
+Row Matrix::columna(int j) {
+    Row c(size());
+    for (int i = 0; i < size(); i++) {
+        c[i] = matrix[i][j];
+    }
+    return c;
+}
+
+void Matrix::modificar_columna(int j, Row& c) {
+    for (int i = 0; i < size(); i++) {
+        matrix[i][j] = c[j];
+    }
+}
+
+void Matrix::modificar_columna(int j, Row c) {
+    for (int i = 0; i < size(); i++) {
+        matrix[i][j] = c[j];
+    }
+}
 
 // Funcions propies de les matrius
-
 double Matrix::product_diagonal() {
     double prod = 1;
     for (int i = 0; i < size(); i++){
@@ -162,6 +177,10 @@ double Matrix::norm_inf() {
         if (sum > max) max = sum;
     }
     return max;
+}
+
+Matrix Matrix::inverse() {
+    //TO DO, hauriem de copiar i pegar varies funcions de LU aqui, pero arreglades perque els arguments del lazaro donen sida
 }
 
 

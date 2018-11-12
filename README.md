@@ -6,9 +6,12 @@
 
 ### TO DO:
 
-+ En les classes Row i Matrix, eliminar funcions redundants / millorar les existents / afegir més funcions
-+ Tota la resta
++ Matrix::inverse() - Fa falta copiar i arreglar les funcions de LU  
++ Simplex::faseI()  
++ Simplex::faseII_cost_negatiu()  
++ Simplex::faseII_bland()  
 
 ### COMENTARIS:
 
-+ Els fitxers que ens surtin al final haurien de ser els que hi ha ara més algun fitxer de funcions simplex.cc/simplex.hh amb les fases separades i tal
++ Jo faria una funció iteracio() que pugui fer una iteració de faseI
+o faseII indistintament, per simplificar els codis 

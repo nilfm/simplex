@@ -23,12 +23,16 @@ public:
     //Funcions basiques
     int size() const;
     void swap(int i, int j);
+    Row columna(int j);                     //Retorna la jesima columna del p.i.
+    void modificar_columna(int j, Row& c);  //La jesima columna del p.i. passa a ser c
+    void modificar_columna(int j, Row c);   //overloading sense referencia - fa el mateix
     
     //Funcions propies de les matrius
     Matrix transpose();
     double product_diagonal();
     double norm_1();
     double norm_inf(); 
+    Matrix inverse(); //Pre: det(A) != 0
     
     //Operadors
     Row& operator[](int x);
