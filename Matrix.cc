@@ -179,9 +179,8 @@ double Matrix::norm_inf() {
     return max;
 }
 
-//NOT TESTED + FALTA POTSER COMPROVAR SI ES SINGULAR I RETORNAR UN INT PER INDICAR-HO
-//potser aniria be, enlloc de modificar el p.i., passar les matrius L i U per referencia i canviar allo?
-void Matrix::LU(Row& perm) {
+//retorna 0 si det A == 0
+int Matrix::LU(Row& perm) {
     int n = size();
     for (int i = 0; i < n; ++i) perm[i] = i;
     for (int i = 0; i < n; ++i) {
@@ -196,14 +195,18 @@ void Matrix::LU(Row& perm) {
         }
         this->swap(b, i);
         swap(perm[b], perm[i]);
+        if (abs(matrix[i][i]) < TOLERANCIA){
+            return 0;
+        }
         for (int j = i + 1; j < n; ++j) {
             matrix[j][i] /= matrix[i][i];
             for (int k = i + 1; k < n; ++k) matrix[j][k] -= matrix[j][i]*matrix[i][k];
         }
     }
+    if (abs(matrix[n-1][n-1]) < TOLERANCIA) return 0;
+    return 1;
 }
 
-//?????
 Row Matrix::solve_upper_triangular(Row& b){
     int n = size();
     Row x(n);
@@ -217,7 +220,6 @@ Row Matrix::solve_upper_triangular(Row& b){
     return x;
 }
 
-//?????
 Row Matrix::solve_lower_triangular(Row& b){
     int n = size();
     Row x(n);
@@ -231,25 +233,24 @@ Row Matrix::solve_lower_triangular(Row& b){
     return x;
 }
 
-//NOT TESTED + FALTA AFEGIR SOLVE_LOWER_TRIANGULAR i SOLVE_UPPER_TRIANGULAR
-Row Matrix::resol(Row& b){
-    int n = size();
-    Row perm(n);
-    Matrix copy = *this;
-    copy.LU(perm);
+Row Matrix::resol(Row& b, Row& perm){
     Row c = b.permute(perm);
     Row y = solve_lower_triangular(c);
     return solve_upper_triangular(y);
 }
 
-//NOT TESTED
+//yes tested
+//retorna matriu de mida 0 si la inversa no existeix
 Matrix Matrix::inverse() {
     int n = size();
+    Row perm(n);
+    Matrix copy = *this;
+    if (copy.LU(perm) == 0) return Matrix(0, 0);
     Matrix inv(n, n);
     for (int i = 0; i < n; ++i) {
         Row b(n, 0);
         b[i] = 1;
-        inv[i] = resol(b);
+        inv[i] = copy.resol(b, perm);
     }
     return inv.transpose();
 }
