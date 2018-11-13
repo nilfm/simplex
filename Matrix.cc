@@ -203,6 +203,34 @@ void Matrix::LU(Row& perm) {
     }
 }
 
+//?????
+Row Matrix::solve_upper_triangular(Row& b){
+    int n = size();
+    Row x(n);
+    for (int i = n - 1; i >= 0; --i){
+        x[i] = b[i];
+        for (int j = i + 1; j < n; ++j){
+            x[i] = x[i] - matrix[i][j]*x[j];
+        }
+        x[i] /= matrix[i][i];
+    }
+    return x;
+}
+
+//?????
+Row Matrix::solve_lower_triangular(Row& b){
+    int n = size();
+    Row x(n);
+    for (int i = 0; i < n; ++i){
+        x[i] = b[i];
+        for (int j = 0; j < i; ++j){
+            x[i] = x[i] - matrix[i][j]*x[j];
+        }
+        //x[i] /= matrix[i][i]; el deixo comentat pero en LU la lower te A[i][i] = 1 per tot i, aixi que no cal
+    }
+    return x;
+}
+
 //NOT TESTED + FALTA AFEGIR SOLVE_LOWER_TRIANGULAR i SOLVE_UPPER_TRIANGULAR
 Row Matrix::resol(Row& b){
     int n = size();
