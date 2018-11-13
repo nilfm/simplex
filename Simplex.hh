@@ -11,7 +11,8 @@ namespace Simplex {
         Row vN;
         Row xB;
         Row r;
-        double z;
+        Matrix B_inv;
+        long double z;
         int status;
     };
     
@@ -29,12 +30,14 @@ namespace Simplex {
 
     /* Calcula el valor de la funcio objectiu en el punt donat 
     per xB i amb v.n.b igual a zero */
-    double calcular_z(Row& vB, Row& xB, Row& c);
+    long double calcular_z(Row& vB, Row& xB, Row& c);
     
     /* Donat A, retorna A|I, si A es mxn, A|I es mx(n+m) */
     Matrix ampliar(Matrix& A);
     
-    void write_status(int iter, int q, double rq, int p, double theta, double z);
+    Matrix actualitzacio_inversa(Matrix& B_inv, Row& dB, int p);
+    
+    void write_status(int iter, int q, long double rq, int p, long double theta, long double z);
     
     /* Fa una iteracio de fase I o fase II del Simplex i retorna un int amb el status actual
     res queda modificat d'acord amb la iteracio.

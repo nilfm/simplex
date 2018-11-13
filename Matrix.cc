@@ -3,11 +3,13 @@
 #include "Row.hh"
 
 // Constructors, Destructors
+Matrix::Matrix() {}
+
 Matrix::Matrix(int size_i, int size_j) {
     matrix = vector<Row>(size_i, Row(size_j));
 }
 
-Matrix::Matrix(int size_i, int size_j, double x) {
+Matrix::Matrix(int size_i, int size_j, long double x) {
     matrix = vector<Row>(size_i, Row(size_j, x));
 }
 
@@ -44,13 +46,13 @@ Row Matrix::operator*(Row r) {
     return s;
 }
 
-Matrix Matrix::operator*(double d) {
+Matrix Matrix::operator*(long double d) {
     Matrix B(matrix.size(), matrix[0].size());
     for (int i = 0; i < size(); i++) B[i] = matrix[i]*d;
     return B;
 }
 
-Matrix operator*(double d, Matrix A) {
+Matrix operator*(long double d, Matrix A) {
     return A*d;
 }
 
@@ -82,7 +84,7 @@ Matrix& Matrix::operator-=(Matrix A) {
 Matrix& Matrix::operator!() {
     for (int i = 0; i < size(); i++) {
         for (int j = i+1; j < matrix[i].size(); j++) {
-            double temp = matrix[i][j];
+            long double temp = matrix[i][j];
             matrix[i][j] = matrix[j][i];
             matrix[j][i] = temp;
         }
@@ -133,8 +135,8 @@ void Matrix::modificar_columna(int j, Row c) {
 }
 
 // Funcions propies de les matrius
-double Matrix::product_diagonal() {
-    double prod = 1;
+long double Matrix::product_diagonal() {
+    long double prod = 1;
     for (int i = 0; i < size(); i++){
         prod *= matrix[i][i];
     }
@@ -151,12 +153,12 @@ Matrix Matrix::transpose() {
     return T;
 }
 
-double Matrix::norm_1() {
+long double Matrix::norm_1() {
     int a = size();
     int b = matrix[0].size();
-    double max = 0;
+    long double max = 0;
     for (int j = 0; j < b; j++){
-        double sum = 0;
+        long double sum = 0;
         for (int i = 0; i < a; i++){
             sum += matrix[i][j];
         }
@@ -165,12 +167,12 @@ double Matrix::norm_1() {
     return max;
 }
 
-double Matrix::norm_inf() {
+long double Matrix::norm_inf() {
     int a = size();
     int b = matrix[0].size();
-    double max = 0;
+    long double max = 0;
     for (int i = 0; i < a; i++){
-        double sum = 0;
+        long double sum = 0;
         for (int j = 0; j < b; j++){
             sum += matrix[i][j];
         }
@@ -185,9 +187,9 @@ int Matrix::LU(Row& perm) {
     for (int i = 0; i < n; ++i) perm[i] = i;
     for (int i = 0; i < n; ++i) {
         int b = 0;
-        double value = 0;
+        long double value = 0;
         for (int j = i; j < n; ++j) {
-            double cur = 1;
+            long double cur = 1;
             for (int k = i; k < n; ++k) {
                 if (abs(matrix[j][i]/matrix[j][k]) < cur) cur = abs(matrix[j][i]/matrix[j][k]);
             }

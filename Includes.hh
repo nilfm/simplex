@@ -11,7 +11,7 @@
 using namespace std;
 
 const int PRECISIO = 4;
-const int PADDING = 25;
-const double TOLERANCIA = 0.000000000001;
+const int PADDING = 12;
+const long double TOLERANCIA = 1e-16;
 
 #endif

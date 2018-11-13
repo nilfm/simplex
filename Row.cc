@@ -5,11 +5,11 @@
 Row::Row() {}
 
 Row::Row(int size) {
-    this->row = vector<double>(size);
+    this->row = vector<long double>(size);
 }
 
-Row::Row(int size, double x){
-    this->row = vector<double>(size, x);
+Row::Row(int size, long double x){
+    this->row = vector<long double>(size, x);
 }
 
 Row::~Row() {}
@@ -17,7 +17,7 @@ Row::~Row() {}
 
 // Operadors
 
-double& Row::operator[](int x){
+long double& Row::operator[](int x){
     return row[x];
 }
 
@@ -27,19 +27,19 @@ Row Row::operator+(Row r) {
     return s;
 }
 
-double Row::operator*(Row r) {
-    double s = 0;
+long double Row::operator*(Row r) {
+    long double s = 0;
     for (int i = 0; i < size(); i++) s += r[i]*row[i];
     return s;
 }
 
-Row Row::operator*(double d) {
+Row Row::operator*(long double d) {
     Row s(size());
     for (int i = 0; i < size(); i++) s[i] = row[i]*d;
     return s;
 }
 
-Row operator*(double d, Row r) {
+Row operator*(long double d, Row r) {
     return r*d;
 }
 
@@ -127,26 +127,26 @@ Row Row::permute(Row& perm){
 
 // Funcions propies dels vectors
 
-double Row::norm_1() const {
-    double suma = 0;
+long double Row::norm_1() const {
+    long double suma = 0;
     for (int i = 0; i < size(); i++) suma += abs(row[i]);
     return suma;
 }
 
-double Row::norm_2() const {
-    double suma = 0;
+long double Row::norm_2() const {
+    long double suma = 0;
     for (int i = 0; i < size(); i++) suma += row[i]*row[i];
     return sqrt(suma);
 }
 
-double Row::norm_p(double p) const {
-    double suma = 0;
+long double Row::norm_p(long double p) const {
+    long double suma = 0;
     for (int i = 0; i < size(); i++) suma += pow(abs(row[i]), p);
     return pow(suma, 1/p);
 }
 
-double Row::norm_inf() const {
-    double max = 0;
+long double Row::norm_inf() const {
+    long double max = 0;
     for (int i = 0; i < size(); i++){
         if (abs(row[i]) > max) max = abs(row[i]); 
     }

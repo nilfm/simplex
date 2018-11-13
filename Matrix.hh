@@ -10,8 +10,9 @@ private:
     
 public:
     //Constructores
+    Matrix();
     Matrix(int size_i, int size_j);
-    Matrix(int size_i, int size_j, double x);
+    Matrix(int size_i, int size_j, long double x);
     
     //Destructora
     ~Matrix();
@@ -29,9 +30,9 @@ public:
     
     //Funcions propies de les matrius
     Matrix transpose();
-    double product_diagonal();
-    double norm_1();
-    double norm_inf(); 
+    long double product_diagonal();
+    long double norm_1();
+    long double norm_inf(); 
     Matrix inverse(); //Pre: det(A) != 0
     Row resol(Row& b, Row& perm);
     Row solve_upper_triangular(Row& b);
@@ -43,7 +44,7 @@ public:
     Matrix operator+(Matrix A);
     Matrix operator*(Matrix A);
     Row operator*(Row r);
-    Matrix operator*(double d);
+    Matrix operator*(long double d);
     Matrix operator-();
     Matrix operator-(Matrix A);
     Matrix& operator=(Matrix A);
@@ -53,7 +54,7 @@ public:
 };
 
 //Altres operadors
-Matrix operator*(double d, Matrix A);
+Matrix operator*(long double d, Matrix A);
 Row operator*(Row b, Matrix A);
 
 #endif

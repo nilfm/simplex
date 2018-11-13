@@ -6,10 +6,10 @@
 
 ### TO DO:
 
-+ Matrix::inverse() - Fa falta copiar i arreglar les funcions de LU  
-+ Simplex::faseI()  
-+ Simplex::faseII_cost_negatiu()  
-+ Simplex::faseII_bland()  
++ Simplex::faseII()  
++ Act. inversa
++ Detecció de cicles
++ Latex
 
 ### COMENTARIS:
 

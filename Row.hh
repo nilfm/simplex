@@ -5,12 +5,12 @@
 
 class Row{
 private:
-    vector<double> row;
+    vector<long double> row;
     
 public:
     //Constructores
     Row();
-    Row(int size, double x);
+    Row(int size, long double x);
     Row(int size);
     
     //Destructora
@@ -26,16 +26,16 @@ public:
     void output_vertical() const;
 
     //Funcions propies dels vectors
-    double norm_1() const;
-    double norm_2() const;
-    double norm_p(double p) const;
-    double norm_inf() const;
+    long double norm_1() const;
+    long double norm_2() const;
+    long double norm_p(long double p) const;
+    long double norm_inf() const;
 
     //Operadors
-    double& operator[](int x);
+    long double& operator[](int x);
     Row operator+(Row r);
-    double operator*(Row r);
-    Row operator*(double d);
+    long double operator*(Row r);
+    Row operator*(long double d);
     Row operator-();
     Row operator-(Row r);
     Row& operator=(Row r);
@@ -48,6 +48,6 @@ public:
 };
 
 //Altres operadors
-Row operator*(double d, Row r);
+Row operator*(long double d, Row r);
 
 #endif

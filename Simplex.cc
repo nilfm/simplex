@@ -40,8 +40,8 @@ Row Simplex::obtenir_costos_no_basics(Row& c, Row& vN) {
     return cN;
 }
 
-double Simplex::calcular_z(Row& vB, Row& xB, Row& c) {
-    double res = 0;
+long double Simplex::calcular_z(Row& vB, Row& xB, Row& c) {
+    long double res = 0;
     int m = vB.size();
     for (int i = 0; i < m; i++) {
         res += xB[i]*c[vB[i]];
@@ -62,8 +62,19 @@ Matrix Simplex::ampliar(Matrix& A) {
     return M;
 }
 
-void Simplex::write_status(int iter, int q, double rq, int p, double theta, double z) {
-    cout << "Iteracio " << iter << " : q = " << q+1 << ", rq = " << rq << ", B(p) = " <<
+Matrix Simplex::actualitzacio_inversa(Matrix& B_inv, Row& dB, int p) {
+    int n = B_inv.size();
+    Matrix E(n, n, 0);
+    for (int i = 0; i < n; ++i) E[i][i] = 1;
+    for (int i = 0; i < n; i++) {
+        if (i == p) E[i][p] = -1/dB[p];
+        else E[i][p] = -dB[i]/dB[p];
+    }
+    return E*B_inv;
+}
+
+void Simplex::write_status(int iter, int q, long double rq, int p, long double theta, long double z) {
+    cout << "  Iteracio " << iter << " : q = " << q+1 << ", rq = " << rq << ", B(p) = " <<
         p+1 << ", theta* = " << theta << ", z = " << z << endl;
 }
 
@@ -73,8 +84,6 @@ int Simplex::iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int 
     Row cN = Simplex::obtenir_costos_no_basics(c, res.vN);
     Row cB = Simplex::obtenir_costos_basics(c, res.vB);
     Matrix B = Simplex::obtenir_matriu_basica(A, res.vB);
-    Matrix B_inv = B.inverse();
-    if (B_inv.size() == 0) cout << "B NO INVERTIBLE" << endl;
     Matrix A_N = Simplex::obtenir_matriu_no_basica(A, res.vN);
     /*cerr << "cN:" << endl;
     cN.output();
@@ -83,12 +92,12 @@ int Simplex::iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int 
     cerr << "B^-1:" << endl;
     B_inv.output();
     cerr << "A_N:" << endl;
-    A_N.output();
-    */
-    res.r = cN - cB*B_inv*A_N;
+    A_N.output();*/
+    
+    res.r = cN - cB*res.B_inv*A_N;
     
     if (res.r >= Row(n-m, 0)) {
-        write_status(iter, 0, 0, 0, 0, res.z);
+        write_status(iter, -1, 0, -1, 0, res.z);
         return 1; //trobat optim
     }
 
@@ -113,22 +122,25 @@ int Simplex::iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int 
     }
     
     //res.vN[q] es la variable que entrara a la base
-    Row dB = -B_inv*A.columna(res.vN[q]);
+    Row dB = -res.B_inv*A.columna(res.vN[q]);
     if (dB >= Row(m, 0)) {
-        write_status(iter, 0, 0, 0, 0, res.z);
+        write_status(iter, -1, 0, -1, 0, res.z);
         return 2; //problema il.limitat
     }
-    double theta = 1e100; //infinit
+    long double theta = 1e100; //infinit
     int p = 0;
     for (int i = 0; i < m; ++i) {
         if (dB[i] < 0) {
-            double cand = -res.xB[i]/dB[i];
+            long double cand = -res.xB[i]/dB[i];
             if (cand < theta or (cand == theta and res.vB[p] > res.vB[i])) {
                 p = i;
                 theta = cand;
             }
         }
     }
+    //actualitzacio de la inversa
+    res.B_inv = Simplex::actualitzacio_inversa(res.B_inv, dB, p);
+    
     res.xB = res.xB + theta*dB;
     res.xB[p] = theta;
     res.z = res.z + theta*res.r[q];
@@ -151,6 +163,8 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, bool bland) {
     for (int i = 0; i < m; i++) res.vB[i] = n+i;
     res.vN = Row(n);
     for (int i = 0; i < n; i++) res.vN[i] = i;
+    Matrix B = Simplex::obtenir_matriu_basica(A_I, res.vB);
+    res.B_inv = B.inverse();
     res.xB = b;
     res.z = calcular_z(res.vB, res.xB, c);
     res.r = Row(n-m);
@@ -173,16 +187,18 @@ Simplex::Resultat Simplex::faseII(Matrix A, Row b, Row c, Resultat res, bool bla
     cout << "Fase II" << endl;
     int m = A.size();
     int n = A[0].size();
-    Matrix A_I = Simplex::ampliar(A);
-    res.vB = Row(m);
-    for (int i = 0; i < m; i++) res.vB[i] = n+i;
-    res.vN = Row(n);
-    for (int i = 0; i < n; i++) res.vN[i] = i;
-    res.xB = b;
+    
+    Row vN_copia = res.vN;
+    res.vN = Row(n-m);
+    int k = 0;
+    for (int i = 0; i < n; i++) {
+        if (vN_copia[i] < n) res.vN[k++] = vN_copia[i];
+    }
     res.z = calcular_z(res.vB, res.xB, c);
     res.r = Row(n-m);
     int iter = 1;
     while (iteracio(A, b, c, res, bland, iter) == 0) {
         iter++;
     }
+    return res;
 }
