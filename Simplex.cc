@@ -19,7 +19,11 @@ double Simplex::calcular_z(Row& vB, Row& xB, Row& c) {
     return res;
 }
 
-Simplex::Resultat Simplex::faseI(Matrix A, Row b, Row c, Row vB, Row vN) {
+Simplex::Resultat Simplex::faseI_cost_negatiu(Matrix A, Row b, Row c, Row vB, Row vN) {
+    //TO DO
+}
+
+Simplex::Resultat Simplex::faseI_bland(Matrix A, Row b, Row c, Row vB, Row vN) {
     //TO DO
 }
 
