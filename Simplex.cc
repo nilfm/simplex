@@ -78,7 +78,7 @@ void Simplex::write_status(int iter, int q, long double rq, int p, long double t
         p+1 << ", theta* = " << theta << ", z = " << z << endl;
 }
 
-int Simplex::iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int iter) {
+int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
     int m = A.size();
     int n = A[0].size();
     Row cN = Simplex::obtenir_costos_no_basics(c, res.vN);
@@ -163,13 +163,12 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, bool bland) {
     for (int i = 0; i < m; i++) res.vB[i] = n+i;
     res.vN = Row(n);
     for (int i = 0; i < n; i++) res.vN[i] = i;
-    Matrix B = Simplex::obtenir_matriu_basica(A_I, res.vB);
-    res.B_inv = B.inverse();
+    res.B_inv = Simplex::obtenir_matriu_basica(A_I, res.vB); //B = id
     res.xB = b;
     res.z = calcular_z(res.vB, res.xB, c);
     res.r = Row(n-m);
     int iter = 1;
-    while (iteracio(A_I, b, c, res, bland, iter) == 0) {
+    while (iteracio(A_I, c, res, bland, iter) == 0) {
         iter++;
     }
     bool ok = true;
@@ -183,7 +182,7 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, bool bland) {
     return res;
 }
 
-Simplex::Resultat Simplex::faseII(Matrix A, Row b, Row c, Resultat res, bool bland) {
+Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, bool bland) {
     cout << "Fase II" << endl;
     int m = A.size();
     int n = A[0].size();
@@ -197,7 +196,7 @@ Simplex::Resultat Simplex::faseII(Matrix A, Row b, Row c, Resultat res, bool bla
     res.z = calcular_z(res.vB, res.xB, c);
     res.r = Row(n-m);
     int iter = 1;
-    while (iteracio(A, b, c, res, bland, iter) == 0) {
+    while (iteracio(A, c, res, bland, iter) == 0) {
         iter++;
     }
     return res;

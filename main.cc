@@ -28,11 +28,6 @@ int main() {
     else if (res_faseI.status == 2) cout << "No s'ha trobat una SBF a la fase I. Finalitzant." << endl;
     else if (res_faseI.status == 3) cout << "S'ha detectat un cicle en la fase I. Finalitzant." << endl;
     if (res_faseI.status != 0) return 0; //no podem continuar
-
-    // Obtencio de B i B inversa
-    Matrix B = Simplex::obtenir_matriu_basica(A, res_faseI.vB);
-    Matrix B_inv = B.inverse(); //B^(-1)
-    Row xB = B_inv*b; //valor de les variables basiques
     
     // Obtencio de z
     res_faseI.z = Simplex::calcular_z(res_faseI.vB, res_faseI.xB, c);
@@ -41,7 +36,7 @@ int main() {
     // Fem que faseII tingui tots els parametres per copia ja que nomes es crida una vegada
     // I aixi no cal fer copies manualment per cridar dos vegades
     // Retornem els resultats per mitja d'una struct creada al namespace Simplex
-    Simplex::Resultat res_faseII = Simplex::faseII(A, b, c, res_faseI, BLAND);
+    Simplex::Resultat res_faseII = Simplex::faseII(A, c, res_faseI, BLAND);
     
     // Interpretacio dels resultats de fase II
     if (res_faseII.status == 0) cout << "Solucio optima trobada." << endl;

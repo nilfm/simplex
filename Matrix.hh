@@ -33,11 +33,6 @@ public:
     long double product_diagonal();
     long double norm_1();
     long double norm_inf(); 
-    Matrix inverse(); //Pre: det(A) != 0
-    Row resol(Row& b, Row& perm);
-    Row solve_upper_triangular(Row& b);
-    Row solve_lower_triangular(Row& b);
-    int LU(Row& perm); //PA = LU
     
     //Operadors
     Row& operator[](int x);

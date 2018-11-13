@@ -6,10 +6,11 @@
 
 ### TO DO:
 
-+ Simplex::faseII()  
-+ Act. inversa
-+ Detecció de cicles
-+ Latex
++ Detecció de cicles (jan o demà)
++ Latex (ja farem)
++ printf (nil)
++ separar inputs (nil)
+
 
 ### COMENTARIS:
 

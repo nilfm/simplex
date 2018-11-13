@@ -45,7 +45,7 @@ namespace Simplex {
     *       -Retorna 1: optim trobat
     *       -Retorna 2: il·limitat
     *       -Retorna 3: cicle detectat (si no Bland) */ 
-    int iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int iter);
+    int iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter);
 
 
     /* Fa la fase I del Simplex i retorna una struct amb la solucio (nomes importa vB i vN).
@@ -62,7 +62,7 @@ namespace Simplex {
      *      -Status = 0 -> s'ha trobat solucio
      *      -Status = 1 -> problema il·limitat 
      *      -Status = 2 -> cicle detectat (si no Bland) */
-    Resultat faseII(Matrix A, Row b, Row c, Resultat res, bool bland);
+    Resultat faseII(Matrix A, Row c, Resultat res, bool bland);
 }
 
 #endif
