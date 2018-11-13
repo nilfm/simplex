@@ -28,7 +28,7 @@ namespace Simplex {
      *      -Status = 1 -> hi ha encara variables artificials a la base
      *      -Status = 2 -> no s'ha trobat SBF (z > 0) 
      *      -Status = 3 -> cicle detectat (si no Bland) */
-    Resultat faseI_cost_negatiu(Matrix A, Row b, Row c, Row vB, Row vN) {
+    Resultat faseI_cost_negatiu(Matrix A, Row b, Row c, Row vB, Row vN);
     Resultat faseI_bland(Matrix A, Row b, Row c, Row vB, Row vN);
     
     /* Fa la fase II del Simplex amb els parametres donats. 

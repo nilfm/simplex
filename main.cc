@@ -23,6 +23,13 @@ int main() {
     if (BLAND) res_faseI = Simplex::faseI_bland(A, b, c);
     else res_faseI = Simplex::faseI_cost_negatiu(A, b, c);
 
+    // Interpretacio dels resultats de fase I
+    if (res_faseI.status == 0) cout << "SBF inicial trobada. Iniciant fase II" << endl;
+    else if (res_faseI.status == 1) cout << "Variables artificials amb valor 0 a la base. Finalitzant." << endl;
+    else if (res_faseI.status == 2) cout << "No s'ha trobat una SBF a la fase I. Finalitzant." << endl;
+    else if (res_faseI.status == 3) cout << "S'ha detectat un cicle en la fase I. Finalitzant." << endl;
+    if (res_faseI.status != 0) return 0; //no podem continuar
+
     // Obtencio de B i B inversa
     Matrix B(m, m);  //matriu basica
     Simplex::obtenir_matriu_basica(A, B, res_faseI.vB);
@@ -40,5 +47,15 @@ int main() {
     if (BLAND) res_faseII = Simplex::faseII_bland(A, b, c, res_faseI.vB, res_faseI.vN, res_faseI.xB, z);
     else res_faseII = Simplex::faseII_cost_negatiu(A, b, c, res_faseI.vB, res_faseI.vN, res_faseI.xB, z);
     
+    // Interpretacio dels resultats de fase II
+    if (res_faseII.status == 0) cout << "Solucio optima trobada." << endl;
+    else if (res_faseII.status == 1) cout << "Problema il·limitat." << endl;
+    else if (res_faseII.status == 2) cout << "S'ha detectat un cicle en la fase II. Finalitzant." << endl;
+    if (res_faseII.status != 0) return 0; //no podem continuar
+    
+    cout << "Resultats:" << endl;
+    cout << "Valor de la funcio objectiu: " << res_faseII.z << endl;
+    cout << "Vector solucio:" << endl;
+    //fer output de x, amb x_B i x_N ordenats com toca
 }
 
