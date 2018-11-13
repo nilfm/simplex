@@ -253,7 +253,7 @@ Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, int iteracions,
         for (int i = 0; i < m; ++i) mask |= 1 << (long long)res.vB[i];
         //Si ja l'hem visitat abans, es que hem ciclat. Retornem
         if (u.count(mask)) {
-            res.status = 3;
+            res.status = 2;
             return res;
         }
         else u.insert(mask);
