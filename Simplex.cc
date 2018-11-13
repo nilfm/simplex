@@ -79,28 +79,26 @@ void Simplex::write_status(int iter, int q, long double rq, int p, long double t
 }
 
 int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
+    //Obtenim les mides de A
     int m = A.size();
     int n = A[0].size();
+    //Obtenim c_N i c_B
     Row cN = Simplex::obtenir_costos_no_basics(c, res.vN);
     Row cB = Simplex::obtenir_costos_basics(c, res.vB);
+    //Obtenim B i A_N
     Matrix B = Simplex::obtenir_matriu_basica(A, res.vB);
     Matrix A_N = Simplex::obtenir_matriu_no_basica(A, res.vN);
-    /*cerr << "cN:" << endl;
-    cN.output();
-    cerr << "cB:" << endl;
-    cB.output();
-    cerr << "B^-1:" << endl;
-    B_inv.output();
-    cerr << "A_N:" << endl;
-    A_N.output();*/
     
+    //Costos reduits
     res.r = cN - cB*res.B_inv*A_N;
     
+    //Si r >= 0, s'ha trobat l'optim
     if (res.r >= Row(n-m, 0)) {
         write_status(iter, -1, 0, -1, 0, res.z);
-        return 1; //trobat optim
+        return 1;
     }
-
+    
+    //Busquem la variable que entra, per Bland o be per cost reduit mes negatiu
     int q = 0;
     if (bland) {
         int lowest = n;
@@ -122,11 +120,17 @@ int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
     }
     
     //res.vN[q] es la variable que entrara a la base
+    
+    //Direccio basica factible relacionada a la variable vN[q]
     Row dB = -res.B_inv*A.columna(res.vN[q]);
+    
+    //Si la DBF (de descens) es positiva, ens trobem en cas il·limitat
     if (dB >= Row(m, 0)) {
         write_status(iter, -1, 0, -1, 0, res.z);
         return 2; //problema il.limitat
     }
+    
+    //Busquem la p, index de la variable basica que surt de la base
     long double theta = 1e100; //infinit
     int p = 0;
     for (int i = 0; i < m; ++i) {
@@ -138,9 +142,11 @@ int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
             }
         }
     }
-    //actualitzacio de la inversa
+    
+    //Actualitzacio de la inversa
     res.B_inv = Simplex::actualitzacio_inversa(res.B_inv, dB, p);
     
+    //Actualitzacio de totes les variables
     res.xB = res.xB + theta*dB;
     res.xB[p] = theta;
     res.z = res.z + theta*res.r[q];
@@ -152,27 +158,42 @@ int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
 
 Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
     cout << "Fase I" << endl;
+    //Obtenim les mides de A
     int m = A.size();
     int n = A[0].size();
     
+    //Creem el vector de costos de la fase I
     Row c(n+m, 0);
     for (int i = n; i < n+m; i++) c[i] = 1;
+    
+    //Creem la nova matriu A_I de la fase I, concatenant amb la identitat
     Matrix A_I = Simplex::ampliar(A);
+    
     Simplex::Resultat res;
+    //Creem el vector de variables basiques
     res.vB = Row(m);
     for (int i = 0; i < m; i++) res.vB[i] = n+i;
+    //Creem el vector de variables no basiques
     res.vN = Row(n);
     for (int i = 0; i < n; i++) res.vN[i] = i;
-    res.B_inv = Simplex::obtenir_matriu_basica(A_I, res.vB); //B = id
+    //Obtenim la matriu B = B^(-1) = identitat
+    res.B_inv = Matrix::identitat(m);
+    //Obtenim xB = B_inv*b = id*b = b
     res.xB = b;
+    //Calculem z a partir del que tenim
     res.z = calcular_z(res.vB, res.xB, c);
+    //Inicialitzem els costos reduits amb la seva mida
     res.r = Row(n-m);
+    
     int iter = 1;
     int current = 0;
     while (current == 0) {
+        //Anem iterant la fase I pel Simplex primal
         current = iteracio(A_I, c, res, bland, iter);
         iter++;
     }
+    
+    //Interpretem els resultats obtinguts per retornar status
     bool ok = true;
     for (int i = 0; i < m; i++) {
         if (res.vB[i] >= n) ok = false;
@@ -181,29 +202,40 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
     else if (res.z > TOLERANCIA) res.status = 2;
     else res.status = 0;
     //falta el cas status = 3
+    
+    //Retornem les iteracions, les necessitarem per l'output de la fase II
     iteracions = iter;
     return res;
 }
 
 Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, int iteracions, bool bland) {
     cout << "Fase II" << endl;
+    //Obtenim les mides de A
     int m = A.size();
     int n = A[0].size();
     
+    //Treiem les variables artificials de vN
     Row vN_copia = res.vN;
     res.vN = Row(n-m);
     int k = 0;
     for (int i = 0; i < n; i++) {
         if (vN_copia[i] < n) res.vN[k++] = vN_copia[i];
     }
+    
+    //Recalculem z amb el vector c que ens donen a les dades
     res.z = calcular_z(res.vB, res.xB, c);
+    
+    //Inicialitzem els costos reduits amb la seva mida
     res.r = Row(n-m);
     int iter = iteracions;
     int current = 0;
     while (current == 0) {
+        //Anem iterant la fase II pel Simplex primal
         current = iteracio(A, c, res, bland, iter);
         iter++;
     }
+    //Interpretem els resultats per retornar el status
+    //Mirar simplex.hh per saber la codificacio emprada
     res.status = current-1;
     return res;
 }

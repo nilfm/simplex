@@ -13,6 +13,12 @@ Matrix::Matrix(int size_i, int size_j, long double x) {
     matrix = vector<Row>(size_i, Row(size_j, x));
 }
 
+Matrix Matrix::identitat(int n) {
+    Matrix I(n, n, 0);
+    for (int i = 0; i < n; i++) I[i][i] = 1;
+    return I;
+}
+
 Matrix::~Matrix() {}
 
 

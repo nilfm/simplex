@@ -13,6 +13,7 @@ public:
     Matrix();
     Matrix(int size_i, int size_j);
     Matrix(int size_i, int size_j, long double x);
+    static Matrix identitat(int n);
     
     //Destructora
     ~Matrix();
