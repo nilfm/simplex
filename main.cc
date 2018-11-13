@@ -56,4 +56,3 @@ int main() {
     cout << "  z*:  ";
     cout << setw(PADDING) << res_faseII.z << endl;
 }
-

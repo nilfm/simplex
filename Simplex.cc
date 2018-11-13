@@ -194,13 +194,16 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
     }
     
     //Interpretem els resultats obtinguts per retornar status
-    bool ok = true;
-    for (int i = 0; i < m; i++) {
-        if (res.vB[i] >= n) ok = false;
-    }
-    if (!ok) res.status = 1;
-    else if (res.z > TOLERANCIA) res.status = 2;
-    else res.status = 0;
+    if (res.z > TOLERANCIA) res.status = 2;
+    else {
+		bool ok = true;
+		
+		for (int i = 0; i < m; i++) {
+			if (res.vB[i] >= n) ok = false;
+		}
+		if (!ok) res.status = 1;
+		else res.status = 0;
+	}
     //falta el cas status = 3
     
     //Retornem les iteracions, les necessitarem per l'output de la fase II
