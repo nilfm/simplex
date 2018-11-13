@@ -54,7 +54,7 @@ namespace Simplex {
      *      -Status = 1 -> hi ha encara variables artificials a la base
      *      -Status = 2 -> no s'ha trobat SBF (z > 0) 
      *      -Status = 3 -> cicle detectat (si no Bland) */
-    Resultat faseI(Matrix A, Row b, bool bland);
+    Resultat faseI(Matrix A, Row b, int& iteracions, bool bland);
 
     
     /* Fa la fase II del Simplex amb els parametres donats. 
@@ -62,7 +62,7 @@ namespace Simplex {
      *      -Status = 0 -> s'ha trobat solucio
      *      -Status = 1 -> problema il·limitat 
      *      -Status = 2 -> cicle detectat (si no Bland) */
-    Resultat faseII(Matrix A, Row c, Resultat res, bool bland);
+    Resultat faseII(Matrix A, Row c, Resultat res, int iteracions, bool bland);
 }
 
 #endif

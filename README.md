@@ -14,5 +14,3 @@
 
 ### COMENTARIS:
 
-+ Jo faria una funció iteracio() que pugui fer una iteració de faseI
-o faseII indistintament, per simplificar els codis 

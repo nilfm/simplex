@@ -181,6 +181,7 @@ long double Matrix::norm_inf() {
     return max;
 }
 
+//per multiplicar fila per matriu
 Row operator*(Row b, Matrix A) {
     int m = A[0].size();
     Row r(m);

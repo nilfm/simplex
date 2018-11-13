@@ -74,8 +74,8 @@ Matrix Simplex::actualitzacio_inversa(Matrix& B_inv, Row& dB, int p) {
 }
 
 void Simplex::write_status(int iter, int q, long double rq, int p, long double theta, long double z) {
-    cout << "  Iteracio " << iter << " : q = " << q+1 << ", rq = " << rq << ", B(p) = " <<
-        p+1 << ", theta* = " << theta << ", z = " << z << endl;
+    printf("  Iteracio %2d : q = %2d, rq = %*.*f, B(p) = %2d, theta* = %*.*f, z = %*.*f\n", 
+    iter, q+1, PADDING, PRECISION, (double)rq, p+1, PADDING, PRECISION, (double)theta, PADDING, PRECISION, (double)z);
 }
 
 int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
@@ -150,7 +150,7 @@ int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
     return 0; //podem continuar
 }
 
-Simplex::Resultat Simplex::faseI(Matrix A, Row b, bool bland) {
+Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
     cout << "Fase I" << endl;
     int m = A.size();
     int n = A[0].size();
@@ -168,7 +168,9 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, bool bland) {
     res.z = calcular_z(res.vB, res.xB, c);
     res.r = Row(n-m);
     int iter = 1;
-    while (iteracio(A_I, c, res, bland, iter) == 0) {
+    int current = 0;
+    while (current == 0) {
+        current = iteracio(A_I, c, res, bland, iter);
         iter++;
     }
     bool ok = true;
@@ -179,10 +181,11 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, bool bland) {
     else if (res.z > TOLERANCIA) res.status = 2;
     else res.status = 0;
     //falta el cas status = 3
+    iteracions = iter;
     return res;
 }
 
-Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, bool bland) {
+Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, int iteracions, bool bland) {
     cout << "Fase II" << endl;
     int m = A.size();
     int n = A[0].size();
@@ -195,9 +198,12 @@ Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, bool bland) {
     }
     res.z = calcular_z(res.vB, res.xB, c);
     res.r = Row(n-m);
-    int iter = 1;
-    while (iteracio(A, c, res, bland, iter) == 0) {
+    int iter = iteracions;
+    int current = 0;
+    while (current == 0) {
+        current = iteracio(A, c, res, bland, iter);
         iter++;
     }
+    res.status = current-1;
     return res;
 }
