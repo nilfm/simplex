@@ -191,15 +191,17 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
     int iter = 1;
     int current = 0;
     while (current == 0) {
-        //Generem el bitmask corresponent a la SBF actual
-        long long mask = 0;
-        for (int i = 0; i < m; ++i) mask |= 1 << (long long)res.vB[i];
-        //Si ja l'hem visitat abans, es que hem ciclat. Retornem
-        if (u.count(mask)) {
-            res.status = 3;
-            return res;
+        if (!bland) {
+            //Generem el bitmask corresponent a la SBF actual
+            long long mask = 0;
+            for (int i = 0; i < m; ++i) mask |= 1 << (long long)res.vB[i];
+            //Si ja l'hem visitat abans, es que hem ciclat. Retornem
+            if (u.count(mask)) {
+                res.status = 3;
+                return res;
+            }
+            else u.insert(mask);
         }
-        else u.insert(mask);
         
         //Anem iterant la fase I pel Simplex primal
         current = iteracio(A_I, c, res, bland, iter);
@@ -248,15 +250,17 @@ Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, int iteracions,
     int iter = iteracions;
     int current = 0;
     while (current == 0) {
-        //Generem el bitmask corresponent a la SBF actual
-        long long mask = 0;
-        for (int i = 0; i < m; ++i) mask |= 1 << (long long)res.vB[i];
-        //Si ja l'hem visitat abans, es que hem ciclat. Retornem
-        if (u.count(mask)) {
-            res.status = 2;
-            return res;
+        if (!bland) {
+            //Generem el bitmask corresponent a la SBF actual
+            long long mask = 0;
+            for (int i = 0; i < m; ++i) mask |= 1 << (long long)res.vB[i];
+            //Si ja l'hem visitat abans, es que hem ciclat. Retornem
+            if (u.count(mask)) {
+                res.status = 2;
+                return res;
+            }
+            else u.insert(mask);
         }
-        else u.insert(mask);
         
         //Anem iterant la fase II pel Simplex primal
         current = iteracio(A, c, res, bland, iter);
