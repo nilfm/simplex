@@ -185,12 +185,25 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
     //Inicialitzem els costos reduits amb la seva mida
     res.r = Row(n-m);
     
+    //Guarda les SBF que ja hem visitat per detectar cicles
+    unordered_set<long long> u;
+    
     int iter = 1;
     int current = 0;
     while (current == 0) {
+        //Generem el bitmask corresponent a la SBF actual
+        long long mask = 0;
+        for (int i = 0; i < m; ++i) mask |= 1 << (long long)res.vB[i];
+        //Si ja l'hem visitat abans, es que hem ciclat. Retornem
+        if (u.count(mask)) {
+            res.status = 3;
+            return res;
+        }
+        else u.insert(mask);
+        
         //Anem iterant la fase I pel Simplex primal
         current = iteracio(A_I, c, res, bland, iter);
-        iter++;
+        iter++;  
     }
     
     //Interpretem els resultats obtinguts per retornar status
@@ -204,7 +217,6 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
 		if (!ok) res.status = 1;
 		else res.status = 0;
 	}
-    //falta el cas status = 3
     
     //Retornem les iteracions, les necessitarem per l'output de la fase II
     iteracions = iter;
@@ -228,11 +240,24 @@ Simplex::Resultat Simplex::faseII(Matrix A, Row c, Resultat res, int iteracions,
     //Recalculem z amb el vector c que ens donen a les dades
     res.z = calcular_z(res.vB, res.xB, c);
     
+    //Guarda les SBF que ja hem visitat per detectar cicles
+    unordered_set<long long> u;
+    
     //Inicialitzem els costos reduits amb la seva mida
     res.r = Row(n-m);
     int iter = iteracions;
     int current = 0;
     while (current == 0) {
+        //Generem el bitmask corresponent a la SBF actual
+        long long mask = 0;
+        for (int i = 0; i < m; ++i) mask |= 1 << (long long)res.vB[i];
+        //Si ja l'hem visitat abans, es que hem ciclat. Retornem
+        if (u.count(mask)) {
+            res.status = 3;
+            return res;
+        }
+        else u.insert(mask);
+        
         //Anem iterant la fase II pel Simplex primal
         current = iteracio(A, c, res, bland, iter);
         iter++;

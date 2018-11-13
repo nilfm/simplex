@@ -43,8 +43,7 @@ namespace Simplex {
     res queda modificat d'acord amb la iteracio.
     *       -Retorna 0: continua
     *       -Retorna 1: optim trobat
-    *       -Retorna 2: il·limitat
-    *       -Retorna 3: cicle detectat (si no Bland) */ 
+    *       -Retorna 2: il·limitat   */ 
     int iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter);
 
 
