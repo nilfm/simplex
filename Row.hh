@@ -9,6 +9,7 @@ private:
     
 public:
     //Constructores
+    Row();
     Row(int size, double x);
     Row(int size);
     
@@ -32,15 +33,21 @@ public:
 
     //Operadors
     double& operator[](int x);
-    Row operator+(Row& r);
-    double operator*(Row& r);
+    Row operator+(Row r);
+    double operator*(Row r);
     Row operator*(double d);
     Row operator-();
-    Row operator-(Row& r);
+    Row operator-(Row r);
     Row& operator=(Row r);
     Row& operator+=(Row r);
     Row& operator-=(Row r);
+    bool operator>=(Row b);
+    bool operator>(Row b);
+    bool operator<=(Row b);
+    bool operator<(Row b);
 };
 
+//Altres operadors
+Row operator*(double d, Row r);
 
 #endif

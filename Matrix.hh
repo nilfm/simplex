@@ -40,12 +40,12 @@ public:
     
     //Operadors
     Row& operator[](int x);
-    Matrix operator+(Matrix& A);
-    Matrix operator*(Matrix& A);
-    Row operator*(Row& r);
+    Matrix operator+(Matrix A);
+    Matrix operator*(Matrix A);
+    Row operator*(Row r);
     Matrix operator*(double d);
     Matrix operator-();
-    Matrix operator-(Matrix& A);
+    Matrix operator-(Matrix A);
     Matrix& operator=(Matrix A);
     Matrix& operator+=(Matrix A);
     Matrix& operator-=(Matrix A);
@@ -53,7 +53,7 @@ public:
 };
 
 //Altres operadors
-Row operator*(double d, Row& r);
-Matrix operator*(double d, Matrix& A);
+Matrix operator*(double d, Matrix A);
+Row operator*(Row b, Matrix A);
 
 #endif

@@ -2,6 +2,8 @@
 #include "Row.hh"
 
 // Constructors, Destructors
+Row::Row() {}
+
 Row::Row(int size) {
     this->row = vector<double>(size);
 }
@@ -19,13 +21,13 @@ double& Row::operator[](int x){
     return row[x];
 }
 
-Row Row::operator+(Row &r) {
+Row Row::operator+(Row r) {
     Row s(size());
     for (int i = 0; i < size(); i++) s[i] = r[i] + row[i];
     return s;
 }
 
-double Row::operator*(Row &r) {
+double Row::operator*(Row r) {
     double s = 0;
     for (int i = 0; i < size(); i++) s += r[i]*row[i];
     return s;
@@ -37,7 +39,7 @@ Row Row::operator*(double d) {
     return s;
 }
 
-Row operator*(double d, Row& r) {
+Row operator*(double d, Row r) {
     return r*d;
 }
 
@@ -47,7 +49,7 @@ Row Row::operator-() {
     return s;
 }
 
-Row Row::operator-(Row& r) {
+Row Row::operator-(Row r) {
     Row s(size());
     for (int i = 0; i < size(); i++) s[i] = r[i] - row[i];
     return s;
@@ -64,6 +66,26 @@ Row& Row::operator+=(Row r) {
 
 Row& Row::operator-=(Row r) {
     return *this = *this - r;
+}
+
+bool Row::operator>=(Row b) {
+    for (int i = 0; i < size(); i++) if (row[i] < b[i]) return false;
+    return true;
+}
+
+bool Row::operator>(Row b) {
+    for (int i = 0; i < size(); i++) if (row[i] <= b[i]) return false;
+    return true;
+}
+
+bool Row::operator<(Row b) {
+    for (int i = 0; i < size(); i++) if (row[i] >= b[i]) return false;
+    return true;
+}
+
+bool Row::operator<=(Row b) {
+    for (int i = 0; i < size(); i++) if (row[i] > b[i]) return false;
+    return true;
 }
 
 

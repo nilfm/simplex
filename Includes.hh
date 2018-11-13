@@ -10,7 +10,7 @@
 
 using namespace std;
 
-const int PRECISIO = 13;
+const int PRECISIO = 4;
 const int PADDING = 25;
 const double TOLERANCIA = 0.000000000001;
 

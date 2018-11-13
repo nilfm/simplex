@@ -19,13 +19,13 @@ Row& Matrix::operator[](int x) {
     return matrix[x];
 }
 
-Matrix Matrix::operator+(Matrix& A) {
+Matrix Matrix::operator+(Matrix A) {
     Matrix add(matrix.size(), matrix[0].size());
     for (int i = 0; i < size(); i++) add[i] = matrix[i] + A[i];
     return add;
 }
 
-Matrix Matrix::operator*(Matrix& A) {
+Matrix Matrix::operator*(Matrix A) {
     Matrix B = A.transpose();
     int a = matrix.size();
     int b = B.size();
@@ -38,7 +38,7 @@ Matrix Matrix::operator*(Matrix& A) {
     return prod;
 }
 
-Row Matrix::operator*(Row& r) {
+Row Matrix::operator*(Row r) {
     Row s(matrix.size());
     for (int i = 0; i < size(); ++i) s[i] = matrix[i]*r;
     return s;
@@ -50,7 +50,7 @@ Matrix Matrix::operator*(double d) {
     return B;
 }
 
-Matrix operator*(double d, Matrix& A) {
+Matrix operator*(double d, Matrix A) {
     return A*d;
 }
 
@@ -60,7 +60,7 @@ Matrix Matrix::operator-() {
     return B;
 }
 
-Matrix Matrix::operator-(Matrix& A) {
+Matrix Matrix::operator-(Matrix A) {
     Matrix add(matrix.size(), matrix[0].size());
     for (int i = 0; i < size(); i++) add[i] = matrix[i] - A[i];
     return add;
@@ -122,13 +122,13 @@ Row Matrix::columna(int j) {
 
 void Matrix::modificar_columna(int j, Row& c) {
     for (int i = 0; i < size(); i++) {
-        matrix[i][j] = c[j];
+        matrix[i][j] = c[i];
     }
 }
 
 void Matrix::modificar_columna(int j, Row c) {
     for (int i = 0; i < size(); i++) {
-        matrix[i][j] = c[j];
+        matrix[i][j] = c[i];
     }
 }
 
@@ -255,6 +255,10 @@ Matrix Matrix::inverse() {
     return inv.transpose();
 }
 
-
-
+Row operator*(Row b, Matrix A) {
+    int m = A[0].size();
+    Row r(m);
+    for (int i = 0; i < m; ++i) r[i] = b*A.columna(i);
+    return r;
+}
 
