@@ -63,40 +63,35 @@ Matrix Simplex::ampliar(Matrix& A) {
 }
 
 void Simplex::write_status(int iter, int q, double rq, int p, double theta, double z) {
-    cout << "Iteracio " << iter << " : q = " << q << ", rq = " << rq << ", B(p) = " <<
-        p << ", theta* = " << theta << ", z = " << z << endl;
+    cout << "Iteracio " << iter << " : q = " << q+1 << ", rq = " << rq << ", B(p) = " <<
+        p+1 << ", theta* = " << theta << ", z = " << z << endl;
 }
 
 int Simplex::iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int iter) {
-    //cerr << "lol1" << endl;
     int m = A.size();
-    //cerr << "a" << endl;
     int n = A[0].size();
-    //cerr << "b" << endl;
     Row cN = Simplex::obtenir_costos_no_basics(c, res.vN);
-    //cerr << "c" << endl;
     Row cB = Simplex::obtenir_costos_basics(c, res.vB);
-    //cerr << "d" << endl;
     Matrix B = Simplex::obtenir_matriu_basica(A, res.vB);
-    B.output();
-    //cerr << "e" << endl;
     Matrix B_inv = B.inverse();
     if (B_inv.size() == 0) cout << "B NO INVERTIBLE" << endl;
-    //cerr << "f" << endl;
     Matrix A_N = Simplex::obtenir_matriu_no_basica(A, res.vN);
-    //cerr << "g" << endl;
-    //cerr << cN.size();
-    //cerr << cB.size();
-    //cerr << B_inv.size();
-    //cerr << A_N.size();
+    /*cerr << "cN:" << endl;
+    cN.output();
+    cerr << "cB:" << endl;
+    cB.output();
+    cerr << "B^-1:" << endl;
+    B_inv.output();
+    cerr << "A_N:" << endl;
+    A_N.output();
+    */
     res.r = cN - cB*B_inv*A_N;
-    //cerr << "lol2" << endl;
     
     if (res.r >= Row(n-m, 0)) {
         write_status(iter, 0, 0, 0, 0, res.z);
         return 1; //trobat optim
     }
-    //cerr << "lol3" << endl;
+
     int q = 0;
     if (bland) {
         int lowest = n;
@@ -116,14 +111,13 @@ int Simplex::iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int 
             }
         }
     }
-    //cerr << "lol4" << endl;
+    
     //res.vN[q] es la variable que entrara a la base
     Row dB = -B_inv*A.columna(res.vN[q]);
     if (dB >= Row(m, 0)) {
         write_status(iter, 0, 0, 0, 0, res.z);
         return 2; //problema il.limitat
     }
-    //cerr << "lol5" << endl;
     double theta = 1e100; //infinit
     int p = 0;
     for (int i = 0; i < m; ++i) {
@@ -135,7 +129,6 @@ int Simplex::iteracio(Matrix& A, Row& b, Row& c, Resultat& res, bool bland, int 
             }
         }
     }
-    //cerr << "lol6" << endl;
     res.xB = res.xB + theta*dB;
     res.xB[p] = theta;
     res.z = res.z + theta*res.r[q];

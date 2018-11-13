@@ -51,7 +51,7 @@ Row Row::operator-() {
 
 Row Row::operator-(Row r) {
     Row s(size());
-    for (int i = 0; i < size(); i++) s[i] = r[i] - row[i];
+    for (int i = 0; i < size(); i++) s[i] = row[i] - r[i];
     return s;
 }
 

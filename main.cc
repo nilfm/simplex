@@ -3,7 +3,7 @@
 #include "Row.hh"
 #include "Simplex.hh"
 
-const bool BLAND = false; //indica si es fa servir regla de Bland
+const bool BLAND = true; //indica si es fa servir regla de Bland
 const int n = 20;
 const int m = 10;
 
