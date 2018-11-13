@@ -3,14 +3,15 @@
 #include "Row.hh"
 #include "Simplex.hh"
 
-const bool BLAND = true;    //indica si es fa servir regla de Bland
-const int n = 20;           //nombre de restriccions
-const int m = 10;           //nombre de variables
+const bool BLAND = false;    //indica si es fa servir regla de Bland
 
 int main() {
     cout.setf(ios::fixed);
     cout.precision(PRECISION);
     
+    // Input de les dimensions
+    int m, n;
+    cin >> m >> n;
     // Input de c, A, b
     Row c(n);       //c pertany a R^n
     c.input();
@@ -25,8 +26,8 @@ int main() {
 
     // Interpretacio dels resultats de fase I
     if (res_faseI.status == 1) cout << "Variables artificials amb valor 0 a la base. Finalitzant." << endl;
-    else if (res_faseI.status == 2) cout << "No s'ha trobat una SBF a la fase I. Finalitzant." << endl;
-    else if (res_faseI.status == 3) cout << "S'ha detectat un cicle en la fase I. Finalitzant." << endl;
+    else if (res_faseI.status == 2) cout << "No s'ha trobat una SBF a la fase I. Problema infactible. Finalitzant." << endl;
+    else if (res_faseI.status == 3) cout << "S'ha detectat un cicle en la fase I. Degeneració, cal aplicar Bland. Finalitzant." << endl;
     if (res_faseI.status != 0) return 0; //no podem continuar
     
     // Obtencio de z

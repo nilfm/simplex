@@ -15,7 +15,7 @@ El nostre objectiu amb aquesta estructura és tenir un codi modular, en el qual 
 
 Per compilar el codi, només cal executar la comanda `make`, que crida el `Makefile` i genera un executable `main.x`.
 
-Les dades que se li passen al `main.x` han d'estar en el format adequat: primer el vector `c`, després la matriu `A`, i per últim el vector `b`. Hem facilitat les nostres matrius en aquest format, a la mateixa carpeta que el codi.
+Les dades que se li passen al `main.x` han d'estar en el format adequat: primer les dimensions `m` i `n` (files i columnes de `A`), el vector `c`, la matriu `A`, i per últim el vector `b`. Hem facilitat les nostres matrius en aquest format, a la mateixa carpeta que el codi.
 
 Per activar o desactivar la regla de Bland, només cal canviar el valor del `const bool BLAND` que hi ha a les primeres línies de `main.cc`.
 
