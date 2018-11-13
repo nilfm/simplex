@@ -33,10 +33,10 @@ public:
     double norm_1();
     double norm_inf(); 
     Matrix inverse(); //Pre: det(A) != 0
-    Row resol(Row& b);
+    Row resol(Row& b, Row& perm);
     Row solve_upper_triangular(Row& b);
     Row solve_lower_triangular(Row& b);
-    void LU(Row& perm); //PA = LU
+    int LU(Row& perm); //PA = LU
     
     //Operadors
     Row& operator[](int x);
