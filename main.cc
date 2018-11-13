@@ -19,11 +19,9 @@ int main() {
     b.input();
     
     // Calcul de SBF inicial per Fase I
-    Row vB(m);       //llista de variables basiques
-    Row vN(n-m);     //llista de variables no basiques
     Simplex::Resultat res_faseI;
-    if (BLAND) res_faseI = Simplex::faseI_bland(A, b, c, vB, vN);
-    else res_faseI = Simplex::faseI_cost_negatiu(A, b, c, vB, vN);
+    if (BLAND) res_faseI = Simplex::faseI_bland(A, b, c);
+    else res_faseI = Simplex::faseI_cost_negatiu(A, b, c);
 
     // Obtencio de B i B inversa
     Matrix B(m, m);  //matriu basica
