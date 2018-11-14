@@ -35,8 +35,8 @@ namespace Simplex {
     /* Donat A, retorna A|I, si A es mxn, A|I es mx(n+m) */
     Matrix ampliar(Matrix& A);
     
-    /* Donat A, retorna la matriu resultant d'eliminar les files redundants de A */
-    Matrix reduir(Matrix& A);
+    /* Donat A i b, deixa en A i b el resultat d'eliminar les files redundants de A i de b */
+    void reduir(Matrix& A, Row& b);
     
     /* Donada la inversa anterior, la direccio basica de la variable sortint, i l'index p,
     retorna la nova inversa */
