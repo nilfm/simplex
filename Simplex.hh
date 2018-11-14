@@ -52,7 +52,10 @@ namespace Simplex {
     *       -Retorna 2: il·limitat   */ 
     int iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter);
 
-
+    /* Donada una SBF degenerada de la Fase I, substitueix les variables arificials
+     * amb variables no artificials per ser utilitzada en la Fase II */
+    void eliminar_artificials(Matrix& A, Resultat& res, int& iteracions);
+    
     /* Fa la fase I del Simplex i retorna una struct amb la solucio (nomes importa vB i vN).
      * La variable status indica:
      *      -Status = 0 -> s'ha trobat SBF inicial

@@ -186,6 +186,37 @@ int Simplex::iteracio(Matrix& A, Row& c, Resultat& res, bool bland, int iter) {
     return 0; //podem continuar
 }
 
+void Simplex::eliminar_artificials(Matrix& A, Resultat& res, int& iteracions) {
+    int n = res.vN.size();
+    int m = res.vB.size();
+    int k = 0, l = m - 1;
+    while (k < l) {
+        if (res.vB[k] < n) ++k;
+        else if (res.vB[l] >= n) --l;
+        else {
+            swap(res.vB[k], res.vB[l]);
+            swap(res.B_inv[k], res.B_inv[l]);
+            ++k, --l;
+        }
+    }
+    while (res.vB[k] < n) ++k;
+    while (k < m) {
+        bool found = false;
+        for (int j = 0; j < n and !found; ++j) {
+            if (res.vN[j] < n) {
+                Row dB = -res.B_inv*A.columna(res.vN[j]);
+                if (abs(dB[k]) > TOLERANCIA) {
+                    found = true;
+                    write_status(iteracions++, res.vN[j], 0, res.vB[k], 0, res.z);
+                    res.B_inv = Simplex::actualitzacio_inversa(res.B_inv, dB, k);
+                    swap(res.vB[k], res.vN[j]);
+                }
+            }
+        }
+        ++k;
+    }
+}
+
 Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
     cout << "Fase I" << endl;
     //Obtenim les mides de A
@@ -246,8 +277,11 @@ Simplex::Resultat Simplex::faseI(Matrix A, Row b, int& iteracions, bool bland) {
 		for (int i = 0; i < m; i++) {
 			if (res.vB[i] >= n) ok = false;
 		}
-		if (!ok) res.status = 1;
-		else res.status = 0;
+		if (!ok) {
+            cout << "Eliminem variables arificials de la base" << endl;
+            eliminar_artificials(A, res, iter);
+        }
+        res.status = 0;
 	}
     
     //Retornem les iteracions, les necessitarem per l'output de la fase II
