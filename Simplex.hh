@@ -35,14 +35,8 @@ namespace Simplex {
     /* Donat A, retorna A|I, si A es mxn, A|I es mx(n+m) */
     Matrix ampliar(Matrix& A);
     
-    /* Donat A i b, deixa en A i b el resultat d'eliminar les files redundants de A i de b */
-    void reduir(Matrix& A, Row& b);
-    
-    /* Donada la inversa anterior, la direccio basica de la variable sortint, i l'index p,
-    retorna la nova inversa */
     Matrix actualitzacio_inversa(Matrix& B_inv, Row& dB, int p);
     
-    /* Escriu en el format adequat l'output de cada iteracio */
     void write_status(int iter, int q, long double rq, int p, long double theta, long double z);
     
     /* Fa una iteracio de fase I o fase II del Simplex i retorna un int amb el status actual

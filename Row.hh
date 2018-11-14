@@ -18,8 +18,6 @@ public:
     
     //Funcions basiques
     int size() const;
-    void pop_back();
-    void push_back(long double r);
     Row permute(Row& perm);
     
     //Input-Output

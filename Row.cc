@@ -115,14 +115,7 @@ int Row::size() const {
     return row.size();
 }
 
-void Row::pop_back() {
-    row.pop_back();
-}
-
-void Row::push_back(long double r) {
-    row.push_back(r);
-}
-
+//?????
 Row Row::permute(Row& perm){
     Row res(size());
     for (int i = 0; i < size(); ++i) {

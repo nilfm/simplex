@@ -114,14 +114,6 @@ int Matrix::size() const {
     return matrix.size();
 }
 
-void Matrix::pop_back() {
-    matrix.pop_back();
-}
-
-void Matrix::push_back(Row& r) {
-    matrix.push_back(r);
-}
-
 void Matrix::swap(int i, int j) {
     Row t = matrix[i];
     matrix[i] = matrix[j];
@@ -195,30 +187,6 @@ long double Matrix::norm_inf() {
     return max;
 }
 
-// Forma esglaonada reduida. Les columnes amb
-// el primer no-zero de cada fila son (0..1..0).
-void Matrix::gauss() {
-  int r = size();
-  int c = matrix[0].size();
-  for (int i = 0, j = 0; i < r and j < c; ++j) {
-    int nz = i;
-    for (int k = i + 1; k < r; ++k) {
-        if (abs(matrix[nz][j]) < abs(matrix[k][j])) nz = k;
-    }
-    if (abs(matrix[nz][j]) < TOLERANCIA) continue;
-    swap(i, nz);
-    for (int l = 0; l < c; l++) {
-        matrix[i][l] /= matrix[i][j];
-    }
-    for (int k = 0; k < r; ++k) if (k != i) {
-        for (int l = 0; l < c; l++) {
-            matrix[k][l] -= matrix[i][l] * matrix[k][j];
-        }
-    }
-    ++i;
-  }
-}
-
 //per multiplicar fila per matriu
 Row operator*(Row b, Matrix A) {
     int m = A[0].size();
@@ -226,5 +194,3 @@ Row operator*(Row b, Matrix A) {
     for (int i = 0; i < m; ++i) r[i] = b*A.columna(i);
     return r;
 }
-
-

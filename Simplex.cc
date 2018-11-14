@@ -62,36 +62,6 @@ Matrix Simplex::ampliar(Matrix& A) {
     return M;
 }
 
-void Simplex::reduir(Matrix& A, Row& b) {
-    //Fem gauss
-    A.gauss();
-    int m = A.size();
-    int n = A[0].size();
-    
-    //Trobem quines files son tot zeros
-    vector<bool> files_zeros(m, false);
-    for (int i = 0; i < m; i++) {
-        bool zeros = true;
-        for (int j = 0; j < n; j++) {
-            if (abs(A[i][j]) > TOLERANCIA) zeros = false;
-        }
-        files_zeros[i] = zeros;
-    }
-    //Eliminem les files que son tot zeros
-    Matrix A2;
-    Row b2;
-    for (int i = 0; i < m; i++) {
-        if (not files_zeros[i]) {
-            A2.push_back(A[i]);
-            b2.push_back(b[i]);
-        }
-    }
-    cerr << "A.size() = " << A.size() << endl;
-    cerr << "A2.size() = " << A2.size() << endl;
-    A = A2;
-    b = b2;
-}
-
 Matrix Simplex::actualitzacio_inversa(Matrix& B_inv, Row& dB, int p) {
     int n = B_inv.size();
     Matrix E(n, n, 0);
