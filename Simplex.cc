@@ -62,6 +62,22 @@ Matrix Simplex::ampliar(Matrix& A) {
     return M;
 }
 
+Matrix Simplex::reduir(Matrix& A) {
+    Matrix B = A;
+    B.gauss();
+    int m = B.size();
+    int n = B[0].size();
+    for (int i = m-1; i >= 0; i++) {
+        bool ok = false;
+        for (int j = 0; j < n; j++) {
+            if (B[i][j] > TOLERANCIA) ok = true;
+        }
+        if (ok) return B;
+        else B.pop_back();
+    }
+    return B;
+}
+
 Matrix Simplex::actualitzacio_inversa(Matrix& B_inv, Row& dB, int p) {
     int n = B_inv.size();
     Matrix E(n, n, 0);
