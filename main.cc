@@ -21,8 +21,12 @@ int main() {
     b.input();
     
     // Eliminacio de restriccions redundants
-    A = Simplex::reduir(A);
+    Matrix A2 = A; //copia de A
+    Row b2 = b;    //copia de b
+    Simplex::reduir(A, b);
+
     m = A.size();
+    A.output();
     
     int iteracions;
     // Calcul de SBF inicial per Fase I
@@ -46,6 +50,10 @@ int main() {
     if (res_faseII.status == 1) cout << "Problema il·limitat." << endl;
     else if (res_faseII.status == 2) cout << "S'ha detectat un cicle en la fase II. Finalitzant." << endl;
     if (res_faseII.status != 0) return 0; //no podem continuar
+    
+    //Indexem les variables basiques sobre 1 enlloc de 0
+    for (int i = 0; i < res_faseII.vB.size(); i++) res_faseII.vB[i]++;
+    for (int i = 0; i < res_faseII.vN.size(); i++) res_faseII.vN[i]++;
     
     // Output de resultats
     cout << "Resultats:" << endl;

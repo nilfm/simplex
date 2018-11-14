@@ -24,6 +24,8 @@ public:
     
     //Funcions basiques
     int size() const;
+    void pop_back();
+    void push_back(Row& r);
     void swap(int i, int j);
     Row columna(int j);                     //Retorna la jesima columna del p.i.
     void modificar_columna(int j, Row& c);  //La jesima columna del p.i. passa a ser c
@@ -34,6 +36,7 @@ public:
     long double product_diagonal();
     long double norm_1();
     long double norm_inf(); 
+    void gauss();
     
     //Operadors
     Row& operator[](int x);
