@@ -20,6 +20,10 @@ int main() {
     Row b(m);       //b pertany a R^m
     b.input();
     
+    // Eliminacio de restriccions redundants
+    A = Simplex::reduir(A);
+    m = A.size();
+    
     int iteracions;
     // Calcul de SBF inicial per Fase I
     Simplex::Resultat res_faseI = Simplex::faseI(A, b, iteracions, BLAND);
